@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Las Tres Palabras</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #070707;
+            color: #ddd;
+            font-family: Georgia, serif;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contenedor {
+            width: 90%;
+            max-width: 650px;
+            background: #101010;
+            border: 1px solid #333;
+            padding: 40px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+        }
+
+        .archivo {
+            color: #666;
+            font-family: monospace;
+            letter-spacing: 4px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #eee;
+            font-size: 30px;
+            margin-bottom: 35px;
+        }
+
+        .acertijo {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+
+            background: #050505;
+            color: white;
+
+            border: 1px solid #444;
+            outline: none;
+
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: #888;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 15px;
+
+            background: transparent;
+            color: #ddd;
+
+            border: 1px solid #555;
+
+            font-family: monospace;
+            font-size: 14px;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1c1c1c;
+        }
+
+        #mensaje {
+            margin-top: 25px;
+            font-family: monospace;
+            line-height: 1.7;
+        }
+
+        .correcto {
+            color: #65ff88;
+        }
+
+        .incorrecto {
+            color: #ff5c5c;
+        }
+
+        .pista {
+            margin-top: 30px;
+            color: #777;
+            cursor: pointer;
+            font-family: monospace;
+        }
+
+        .pista:hover {
+            color: #aaa;
+        }
+
+        #textoPista {
+            display: none;
+            margin-top: 15px;
+            color: #888;
+            font-family: monospace;
+        }
+
+        .progreso {
+            color: #555;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        .final {
+            text-align: center;
+        }
+
+        .final h2 {
+            color: #65ff88;
+            font-size: 26px;
+        }
+
+        .palabra {
+            color: white;
+            font-size: 22px;
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="archivo">
+        ARCHIVO 001
+    </div>
+
+    <h1 id="titulo">Primera palabra</h1>
+
+    <div class="acertijo" id="acertijo">
+        No estás solo.
+
+        Alguien camina contigo, comparte el camino
+        y permanece a tu lado cuando las cosas se complican.
+
+        No necesariamente es tu amigo.
+
+        ¿Qué palabra describe a esa persona?
+    </div>
+
+    <input
+        type="text"
+        id="respuesta"
+        placeholder="Escribe tu respuesta..."
+        autocomplete="off"
+    >
+
+    <button onclick="comprobar()">
+        DESBLOQUEAR
+    </button>
+
+    <div id="mensaje"></div>
+
+    <div class="pista" onclick="mostrarPista()">
+        💡 Necesito una pista
+    </div>
+
+    <div id="textoPista"></div>
+
+    <div class="progreso" id="progreso">
+        PRUEBA 1 / 3
+    </div>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // VARIABLES
+    // ==========================================
+
+    let nivel = 1;
+
+
+    // ==========================================
+    // COMPROBAR RESPUESTA
+    // ==========================================
+
+    function comprobar() {
+
+        const input = document.getElementById("respuesta");
+
+        const respuesta = input.value
+            .trim()
+            .toLowerCase();
+
+        const mensaje = document.getElementById("mensaje");
+
+
+        // --------------------------
+        // NIVEL 1
+        // --------------------------
+
+        if (nivel === 1) {
+
+            if (respuesta === "compañero" || respuesta === "companero") {
+
+                nivel = 2;
+
+                mostrarNivel2();
+
+            } else {
+
+                mensaje.innerHTML =
+                    `<div class="incorrecto">
+                        ✗ Respuesta incorrecta.
+                    </div>`;
+
+            }
+
+        }
+
+
+        // --------------------------
+        // NIVEL 2
+        // --------------------------
+
+        else if (nivel === 2) {
+
+            if (respuesta === "asesino") {
+
+                nivel = 3;
+
+                mostrarNivel3();
+
+            } else {
+
+                mensaje.innerHTML =
+                    `<div class="incorrecto">
+                        ✗ Respuesta incorrecta.
+                    </div>`;
+
+            }
+
+        }
+
+
+        // --------------------------
+        // NIVEL 3
+        // --------------------------
+
+        else if (nivel === 3) {
+
+            if (respuesta === "princesa") {
+
+                mostrarFinal();
+
+            } else {
+
+                mensaje.innerHTML =
+                    `<div class="incorrecto">
+                        ✗ Respuesta incorrecta.
+                    </div>`;
+
+            }
+
+        }
+
+    }
+
+
+    // ==========================================
+    // NIVEL 2
+    // ==========================================
+
+    function mostrarNivel2() {
+
+        document.getElementById("titulo").innerText =
+            "Segunda palabra";
+
+        document.getElementById("acertijo").innerHTML = `
+            Ahora sabes que no estás solo.
+
+            <br><br>
+
+            Pero hay alguien que no vino a ayudarte.
+
+            <br><br>
+
+            Alguien cometió un crimen.
+            Alguien acabó con la vida de otra persona.
+
+            <br><br>
+
+            ¿Qué palabra describe a esa persona?
+        `;
+
+        document.getElementById("respuesta").value = "";
+
+        document.getElementById("mensaje").innerHTML =
+            `<div class="correcto">
+                ✓ Primera palabra descubierta.
+                <br>
+                Continúa...
+            </div>`;
+
+        document.getElementById("textoPista").style.display = "none";
+
+        document.getElementById("textoPista").innerText =
+            "Es la persona que cometió el crimen.";
+
+        document.getElementById("progreso").innerText =
+            "PRUEBA 2 / 3";
+
+    }
+
+
+    // ==========================================
+    // NIVEL 3
+    // ==========================================
+
+    function mostrarNivel3() {
+
+        document.getElementById("titulo").innerText =
+            "Última palabra";
+
+        document.getElementById("acertijo").innerHTML = `
+            Has descubierto al culpable.
+
+            <br><br>
+
+            Pero todavía falta encontrar a alguien.
+
+            <br><br>
+
+            Vive en un castillo.
+            Pertenece a la realeza.
+            En muchos cuentos lleva una corona.
+
+            <br><br>
+
+            ¿Quién es?
+        `;
+
+        document.getElementById("respuesta").value = "";
+
+        document.getElementById("mensaje").innerHTML =
+            `<div class="correcto">
+                ✓ Segunda palabra descubierta.
+                <br>
+                Esta es la última prueba.
+            </div>`;
+
+        document.getElementById("textoPista").style.display = "none";
+
+        document.getElementById("textoPista").innerText =
+            "Es una mujer perteneciente a la realeza.";
+
+        document.getElementById("progreso").innerText =
+            "PRUEBA 3 / 3";
+
+    }
+
+
+    // ==========================================
+    // FINAL
+    // ==========================================
+
+    function mostrarFinal() {
+
+        document.querySelector(".contenedor").innerHTML = `
+
+            <div class="final">
+
+                <div class="archivo">
+                    ARCHIVO 001
+                </div>
+
+                <h2>
+                    ✓ ACCESO CONCEDIDO
+                </h2>
+
+                <p>
+                    Has descubierto las tres palabras.
+                </p>
+
+                <br>
+
+                <p class="palabra">
+                    COMPAÑERO
+                </p>
+
+                <p class="palabra">
+                    ASESINO
+                </p>
+
+                <p class="palabra">
+                    PRINCESA
+                </p>
+
+                <br>
+
+                <p>
+                    Has completado correctamente
+                    la primera prueba.
+                </p>
+
+                <br>
+
+                <button onclick="continuar()">
+                    CONTINUAR →
+                </button>
+
+            </div>
+
+        `;
+
+    }
+
+
+    // ==========================================
+    // PISTA
+    // ==========================================
+
+    function mostrarPista() {
+
+        const pista = document.getElementById("textoPista");
+
+        pista.style.display = "block";
+
+    }
+
+
+    // ==========================================
+    // CONTINUAR
+    // ==========================================
+
+    function continuar() {
+
+        /*
+        AQUÍ PONES EL ENLACE DE TU
+        SIGUIENTE PÁGINA DE GOOGLE SITES.
+
+        Ejemplo:
+
+        window.location.href =
+        "https://sites.google.com/view/mi-blog/pagina-2";
+        */
+
+        window.location.href =
+            "https://sites.google.com/";
+
+    }
+
+</script>
+
+</body>
+</html>
