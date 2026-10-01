@@ -1,0 +1,249 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Archivo 002</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #070707;
+    color: #ddd;
+    font-family: Georgia, serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor {
+    width: 90%;
+    max-width: 650px;
+    background: #101010;
+    border: 1px solid #333;
+    padding: 40px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+}
+
+.archivo {
+    color: #666;
+    font-family: monospace;
+    letter-spacing: 4px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #eee;
+    font-size: 30px;
+    margin-bottom: 35px;
+}
+
+.acertijo {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    background: #050505;
+    color: white;
+    border: 1px solid #444;
+    outline: none;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    background: transparent;
+    color: #ddd;
+    border: 1px solid #555;
+    font-family: monospace;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1c1c1c;
+}
+
+#mensaje {
+    margin-top: 25px;
+    font-family: monospace;
+    line-height: 1.7;
+}
+
+.correcto {
+    color: #65ff88;
+}
+
+.incorrecto {
+    color: #ff5c5c;
+}
+
+.pista {
+    margin-top: 30px;
+    color: #777;
+    cursor: pointer;
+    font-family: monospace;
+}
+
+#textoPista {
+    display: none;
+    margin-top: 15px;
+    color: #888;
+    font-family: monospace;
+    line-height: 1.6;
+}
+
+.progreso {
+    color: #555;
+    font-family: monospace;
+    font-size: 12px;
+    margin-top: 30px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="archivo">
+        ARCHIVO 002
+    </div>
+
+    <h1>Segunda palabra</h1>
+
+    <div class="acertijo">
+
+        Alguien no vino a ayudarte.
+
+        <br><br>
+
+        Alguien cometió un crimen.
+
+        <br><br>
+
+        Alguien acabó con la vida de otra persona.
+
+        <br><br>
+
+        ¿Qué palabra describe a esa persona?
+
+    </div>
+
+    <input
+        type="text"
+        id="respuesta"
+        placeholder="Escribe tu respuesta..."
+        autocomplete="off"
+    >
+
+    <button onclick="comprobar()">
+        DESBLOQUEAR
+    </button>
+
+    <div id="mensaje"></div>
+
+    <div class="pista" onclick="mostrarPista()">
+        💡 Necesito una pista
+    </div>
+
+    <div id="textoPista">
+        Es la persona que cometió el crimen.
+    </div>
+
+    <div class="progreso">
+        PRUEBA 2 / 3
+    </div>
+
+</div>
+
+<script>
+
+const PAGINA_SIGUIENTE =
+"https://sites.google.com/";
+
+function comprobar() {
+
+    const respuesta =
+        document.getElementById("respuesta")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const mensaje =
+        document.getElementById("mensaje");
+
+    if (respuesta === "asesino") {
+
+        mensaje.innerHTML =
+        `<div class="correcto">
+            ✓ RESPUESTA CORRECTA
+            <br><br>
+            Accediendo al siguiente archivo...
+        </div>`;
+
+        setTimeout(function() {
+
+            window.location.href =
+            PAGINA_SIGUIENTE;
+
+        }, 1500);
+
+    } else {
+
+        mensaje.innerHTML =
+        `<div class="incorrecto">
+            ✗ Respuesta incorrecta.
+        </div>`;
+
+    }
+}
+
+function mostrarPista() {
+
+    const pista =
+        document.getElementById("textoPista");
+
+    if (pista.style.display === "none" ||
+        pista.style.display === "") {
+
+        pista.style.display = "block";
+
+    } else {
+
+        pista.style.display = "none";
+
+    }
+}
+
+document.getElementById("respuesta")
+.addEventListener("keypress", function(event) {
+
+    if (event.key === "Enter") {
+        comprobar();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
+```
