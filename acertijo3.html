@@ -1,0 +1,446 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Archivo Final</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #070707;
+    color: #ddd;
+    font-family: Georgia, serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor {
+    width: 90%;
+    max-width: 650px;
+    background: #101010;
+    border: 1px solid #333;
+    padding: 40px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+}
+
+.archivo {
+    color: #666;
+    font-family: monospace;
+    letter-spacing: 4px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #eee;
+    font-size: 30px;
+    margin-bottom: 35px;
+}
+
+.acertijo {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #aaa;
+    margin-bottom: 30px;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    background: #050505;
+    color: white;
+    border: 1px solid #444;
+    outline: none;
+    font-family: monospace;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    background: transparent;
+    color: #ddd;
+    border: 1px solid #555;
+    font-family: monospace;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1c1c1c;
+}
+
+#mensaje {
+    margin-top: 25px;
+    font-family: monospace;
+    line-height: 1.7;
+}
+
+.correcto {
+    color: #65ff88;
+}
+
+.incorrecto {
+    color: #ff5c5c;
+}
+
+.pista {
+    margin-top: 30px;
+    color: #777;
+    cursor: pointer;
+    font-family: monospace;
+}
+
+#textoPista {
+    display: none;
+    margin-top: 15px;
+    color: #888;
+    font-family: monospace;
+    line-height: 1.6;
+}
+
+.intentos {
+    margin-top: 25px;
+    color: #999;
+    font-family: monospace;
+}
+
+.final {
+    text-align: center;
+}
+
+.final h2 {
+    color: #65ff88;
+    font-size: 28px;
+}
+
+.derrota h2 {
+    color: #ff5c5c;
+}
+
+.palabra {
+    color: white;
+    font-size: 22px;
+    letter-spacing: 3px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor" id="contenedor">
+
+    <div class="archivo">
+        ARCHIVO FINAL
+    </div>
+
+    <h1>Última palabra</h1>
+
+    <div class="acertijo">
+
+        Has descubierto al culpable.
+
+        <br><br>
+
+        Pero todavía falta encontrar a alguien.
+
+        <br><br>
+
+        Un perro permanece siempre junto a ella.
+        La sigue por los pasillos del castillo
+        y parece protegerla.
+
+        <br><br>
+
+        Su dueña pertenece a la realeza,
+        lleva una corona y vive en un castillo.
+
+        <br><br>
+
+        ¿Quién es ella?
+
+    </div>
+
+    <input
+        type="text"
+        id="respuesta"
+        placeholder="Escribe tu respuesta..."
+        autocomplete="off"
+    >
+
+    <button onclick="comprobar()">
+        DESBLOQUEAR
+    </button>
+
+    <div id="mensaje"></div>
+
+    <div class="pista" onclick="mostrarPista()">
+        💡 Necesito una pista
+    </div>
+
+    <div id="textoPista">
+        Es una joven de la realeza. En los cuentos suele llevar una corona.
+    </div>
+
+    <div class="intentos" id="intentos">
+        INTENTOS DISPONIBLES: 3
+    </div>
+
+</div>
+
+<script>
+
+
+/* ==========================================
+   CONFIGURACIÓN
+   ========================================== */
+
+
+/*
+   Página de Google Sites si GANA.
+*/
+
+const PAGINA_GANAR =
+"https://sites.google.com/";
+
+
+/*
+   Página de Google Sites si PIERDE.
+*/
+
+const PAGINA_PERDER =
+"https://sites.google.com/";
+
+
+/*
+   Cantidad de intentos.
+*/
+
+let intentos = 3;
+
+
+/* ==========================================
+   COMPROBAR
+   ========================================== */
+
+function comprobar() {
+
+    const respuesta =
+        document.getElementById("respuesta")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const mensaje =
+        document.getElementById("mensaje");
+
+
+    /* RESPUESTA CORRECTA */
+
+    if (respuesta === "princesa") {
+
+        mostrarVictoria();
+
+        return;
+
+    }
+
+
+    /* RESPUESTA INCORRECTA */
+
+    intentos--;
+
+
+    document.getElementById("intentos").innerText =
+        "INTENTOS DISPONIBLES: " + intentos;
+
+
+    if (intentos <= 0) {
+
+        mostrarDerrota();
+
+    } else {
+
+        mensaje.innerHTML =
+        `<div class="incorrecto">
+
+            ✗ Respuesta incorrecta.
+
+            <br><br>
+
+            Te quedan ${intentos} intentos.
+
+        </div>`;
+
+    }
+
+}
+
+
+/* ==========================================
+   VICTORIA
+   ========================================== */
+
+function mostrarVictoria() {
+
+    document.getElementById("contenedor").innerHTML = `
+
+        <div class="final">
+
+            <div class="archivo">
+                ARCHIVO FINAL
+            </div>
+
+            <h2>
+                ✓ ACCESO CONCEDIDO
+            </h2>
+
+            <p>
+                Has descubierto la última palabra.
+            </p>
+
+            <br>
+
+            <p class="palabra">
+                PRINCESA
+            </p>
+
+            <br>
+
+            <p>
+                Has completado correctamente
+                todas las pruebas.
+            </p>
+
+            <button onclick="irAGanar()">
+                CONTINUAR →
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   DERROTA
+   ========================================== */
+
+function mostrarDerrota() {
+
+    document.getElementById("contenedor").innerHTML = `
+
+        <div class="final derrota">
+
+            <div class="archivo">
+                ARCHIVO FINAL
+            </div>
+
+            <h2>
+                ✗ ACCESO DENEGADO
+            </h2>
+
+            <p>
+                Has utilizado todos tus intentos.
+            </p>
+
+            <br>
+
+            <p>
+                No lograste descubrir la última palabra.
+            </p>
+
+            <br>
+
+            <p>
+                La investigación ha terminado.
+            </p>
+
+            <button onclick="irAPerder()">
+                CONTINUAR
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   IR A GOOGLE SITES
+   ========================================== */
+
+function irAGanar() {
+
+    window.location.href =
+    PAGINA_GANAR;
+
+}
+
+
+function irAPerder() {
+
+    window.location.href =
+    PAGINA_PERDER;
+
+}
+
+
+/* ==========================================
+   PISTAS
+   ========================================== */
+
+function mostrarPista() {
+
+    const pista =
+        document.getElementById("textoPista");
+
+    if (
+        pista.style.display === "none" ||
+        pista.style.display === ""
+    ) {
+
+        pista.style.display = "block";
+
+    } else {
+
+        pista.style.display = "none";
+
+    }
+
+}
+
+
+/* ==========================================
+   ENTER
+   ========================================== */
+
+document.getElementById("respuesta")
+.addEventListener("keypress", function(event) {
+
+    if (event.key === "Enter") {
+
+        comprobar();
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
+```
